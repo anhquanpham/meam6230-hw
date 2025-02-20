@@ -31,16 +31,18 @@ addpath(genpath(fullfile(filepath, 'lib')));
 robot = RobotisWrapper();
 
 optimal_control = MPC4DOF(robot);
-target_position = [0.1; -0.3; 0.1];
+target_position = [0.2; -0.3; 0.1];
 
+%target_position = [0.284; 0; 0.205]; %approximately original
 
+%target_position = [0.284; 0.07; 0.205]; % the identical trajectory
 
 %% %%%%%%%%%%%%% User defined cost functions %%%%%%%%%%%%% %%
 %% ------ Write your code in the lib folder ------
 %  vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv %%
 
 
-%% OVERWRITE COST VARIABLE IN EACH FUNCTION %%
+% OVERWRITE COST VARIABLE IN EACH FUNCTION %%
 
 %% Task 2a: Minimum time (Write the function in lib/minimumTime.m)
 start = tic;

@@ -40,6 +40,9 @@ robot = RobotisWrapper();
 initialPosition = robot.sampleRandomPosition();
 targetPosition = robot.sampleRandomPosition();
 
+% initialPosition = [0.1, 0.1, 0.1]';
+% targetPosition = [0.2, 0, -0]';
+
 % Adding waypoints between initial and target
 waypoints = zeros(3, 2);
 max_deviation = 0.05;

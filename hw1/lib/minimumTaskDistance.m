@@ -12,5 +12,27 @@
 function cost = minimumTaskDistance(X, U, e, data, robot, target)
     %%%%%%%%%%%%%%%%%%%%%%%%%
     % Fill student code here
+    % Initialize cost
+    cost = 0;
+    
+    % Get number of timesteps
+    N = size(X,1);
+   
+    % For each timestep, compute and sum up the squared Cartesian velocities
+    for i = 1:N-1
+        % Get current joint positions and velocities
+        q = X(i,:)';          % 4x1 joint positions
+        dq = U(i,1:4)';       % 4x1 joint velocities
+        
+        % Get Jacobian at current configuration 
+        J = robot.fastJacobian(q);
+        
+        % Compute Cartesian velocity dx = J*dq
+        dx = J*dq;
+
+
+        % Add squared norm to cost (for numerical stability)
+        cost = cost + dx' * dx;  
+    end
     %%%%%%%%%%%%%%%%%%%%%%%%%
 end

@@ -50,13 +50,14 @@ disp(optimal_solution_full)
 disp("Press space to continue..."); pause(); close all;
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%  Question 3a: Add disturbance  %%
+% Question 3a: Add disturbance  %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% ------ Write your code in addDisturbance.m for Question 2 ------
 %  vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv %%
 
 [disturbance_idx, q_mid] = addDisturbance(optimal_solution_full, 2, 10);
-disp(disturbance_idx)
+% optimal_sol_full, index of joint you want to disturb, disturbance_value
+disp(disturbance_idx) %THIS LINE PRINTS THE NUMBER INDEX OUT
 
 %  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ %%
 %% ------ Write your code above ------

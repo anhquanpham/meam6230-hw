@@ -12,4 +12,8 @@ function cost = minimumTime(X, U, e, data, robot, target)
     %%%%%%%%%%%%%%%%%%%%%%%%%
     % Fill student code here
     %%%%%%%%%%%%%%%%%%%%%%%%%
+    Tf = U(end);
+    
+    % Cost function: minimize the final time
+    cost = Tf;
 end
