@@ -275,6 +275,10 @@ if ~isfield(options,'tol') % convergence tolerance
 end
 if ~isfield(options,'plot') % shall simulator plot the figure
     options.plot = 1;
+
+    if ~isfield(options,'figure_handle') % shall simulator plot the figure
+        options.figure_handle = [];
+    end
 else 
     options.plot = options.plot > 0;
 end
@@ -291,7 +295,7 @@ else
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function sp = plot_results(mode,sp,x,xT,varargin)
+function sp = plot_results(mode,sp,x,xT, varargin)
 if isempty(varargin) || isempty(varargin{1})
     b_obs = false;
 else
@@ -302,19 +306,19 @@ end
 switch mode
     case 'i' %initializing the figure
         if d==2
-            sp.fig = figure('name','2D Simulation of the task', 'position',[653 550 560 420]);
+            sp.fig = figure('Color', [1 1 1], 'name','2D Simulation of DS', 'position',[802 446 560 420]);
             %screensize = get(groot, 'Screensize');
             %sp.fig.Position = [0.5  * screensize(3), 0.1  * screensize(4), 0.7 * screensize(3), 0.8 * screensize(4)];
             sp.axis = gca;
             hold on
 %             sp.xT = plot(xT(1),xT(2),'k*','EraseMode','none','markersize',10,'linewidth',1.5);
-            sp.xT_l = plot(xT(1),xT(2),'k--','EraseMode','none','linewidth',1.5);
+            sp.xT_l = plot(xT(1),xT(2),'k--','EraseMode','none','linewidth',5.5);
             for j=1:nbSPoint
-                plot(x(1,1,j),x(2,1,j),'ok','markersize',2,'linewidth',7.5)
+                plot(x(1,1,j),x(2,1,j),'ok','markersize',5,'linewidth',5.5)
                 sp.x(j)= plot(x(1,1,j),x(2,1,j),'EraseMode','none');
             end
-            xlabel('$\xi_1$','interpreter','latex','fontsize',16);
-            ylabel('$\xi_2$','interpreter','latex','fontsize',16);
+            xlabel('$x_1$','interpreter','latex','fontsize',16);
+            ylabel('$x_2$','interpreter','latex','fontsize',16);
             grid on;box on
             
             if b_obs
@@ -372,9 +376,9 @@ switch mode
         end
 
     case 'u' %updating the figure
-        if gcf ~= sp.fig
-            figure(sp.fig)
-        end
+%         if gcf ~= sp.fig
+%             figure(sp.fig)
+%         end
         if d==2
             ax=get(sp.axis);
             for j=1:nbSPoint
