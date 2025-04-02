@@ -86,7 +86,60 @@ axis_limits = axis;
 %%% MODIFY ME!!!
 %%% MODIFY ME!!!
 %%% MODIFY ME!!!
+if usingSEDS
+    %% Start of ch3_ex3_seDS.m
+    tStart = cputime;
+    
+    % GMM FITTING
+    est_options = [];
+    est_options.type = 1; %GMM-EM Model Selection via BIC
+    est_options.maxK = 10;
+    est_options.samplerIter = 50;
+    sub_sample = 1;
+    est_options.sub_sample       = sub_sample;
+    l_sensitivity = 2;
+    est_options.l_sensitivity    = l_sensitivity; 
+    est_options.estimate_l       = 1;
+    est_options.do_plots = 0; % Ensure do_plots is defined
+    disp(size(Xi_ref));      % Should be (D/2 x N)
+    disp(size(Xi_dot_ref));  % Should be (D/2 x N)
 
+    [Priors, Mu, Sigma] = fit_gmm([Xi_ref; Xi_dot_ref], [], est_options);
+    
+    % SEDS SOLVER
+    options.objective = 'likelihood';
+    options.max_iter = 100;
+    [Priors, Mu, Sigma] = SEDS_Solver(Priors, Mu, Sigma, [Xi_ref; Xi_dot_ref], options);
+    ds_seds = @(x) GMR_SEDS(Priors, Mu, Sigma, x - repmat(att,[1 size(x,2)]), 1:M, M+1:2*M);
+    tEnd = cputime - tStart;
+    
+else
+    %% Start of ch3_ex4_lpvDS.m
+    tStart = cputime;
+    
+    % GMM FITTING
+    est_options = [];
+    est_options.type = 1;
+    est_options.maxK = 10;
+    est_options.samplerIter = 50;
+    sub_sample = 8;
+    est_options.sub_sample       = sub_sample;
+    l_sensitivity = 2;
+    est_options.l_sensitivity    = l_sensitivity; 
+    est_options.estimate_l       = 1;
+    est_options.do_plots = 0; % Ensure do_plots is defined
+    [Priors, Mu, Sigma] = fit_gmm(Xi_ref, Xi_dot_ref, est_options);
+    
+    % LPV-DS OPTIMIZATION
+    constr_type = 2;
+    init_cvx = 1;
+    [A_k, b_k, ~] = optimize_lpv_ds_from_data(Data, att, constr_type, struct('Mu', Mu, 'Sigma', Sigma, 'Priors', Priors), eye(M), init_cvx);
+    ds_lpv = @(x) lpv_ds(x, struct('Mu', Mu, 'Sigma', Sigma, 'Priors', Priors), A_k, b_k);
+    ds_gmm.Mu = Mu;
+    ds_gmm.Sigma = Sigma;
+    ds_gmm.Priors = Priors;
+    tEnd = cputime - tStart;
+end
 
 %%   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ %%%
 %%    Step 2: ADD YOUR CODE ABOVE TO LEARN 3D DS      %%
@@ -104,3 +157,23 @@ else
     ds_control = @(x) ds_lpv(x - attractor);
     save('ds_control.mat', "ds_control", "attractor", "ds_gmm", "A_k", "b_k", "att")
 end
+
+%% %%%%%%%%%%%% Plot Resulting DS %%%%%%%%%%%%%%%%%%%
+% Fill in plotting options
+ds_plot_options = [];
+ds_plot_options.sim_traj = 1; % To simulate trajectories from x0_all
+ds_plot_options.x0_all = x0_all; % Initial Points
+ds_plot_options.init_type = 'ellipsoid'; % For 3D DS, to initialize streamlines
+% 'ellipsoid' or 'cube'
+ds_plot_options.nb_points = 30; % # of streamlines to plot (3D)
+ds_plot_options.plot_vol = 0; % Plot volume of initial points (3D)
+
+% Choose the correct DS function based on usingSEDS
+if usingSEDS
+    ds_func = ds_seds;
+else
+    ds_func = ds_lpv;
+end
+
+% Visualize the estimated DS
+[~, hs, hr, x_sim] = visualizeEstimatedDS(Data(1:M,:), ds_func, ds_plot_options);

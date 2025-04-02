@@ -31,17 +31,23 @@ addpath(genpath(fullfile(filepath, '..', '..', 'libraries', 'book-ds-opt')));
 
 % This script can be used to design and visualize simple linear systems 
 % as well as non-linear systems with a constant gamma functions
-% ds_case = 1: xdot = A(x-x*)
+%ds_case = 1: xdot = A(x-x*)
 % ds_case = 2: xdot = (gamma_1A_1 + gamma_2A_2)(x-x*)
-ds_case = 1; 
+%ds_case = 1; 
+ds_case = 2; 
 
 switch ds_case
     case 1
         % Here you can design an A matrix for a linear DS of the form 
         % xdot = A(x-x*) with x* at the origin
         
-        A = [-1 0; 0 -1];  % <=== Modify this matrix!
-        P = [1 0;   0 1]; % <=== Modify this matrix!         
+        % Exercise 2a
+        % A = [-1 0; 0 -1];  % <=== Modify this matrix!
+        % P = [1 0;   0 1]; % <=== Modify this matrix!
+
+        % Exercise 2b
+        A = [-1 -0.5; -0.5 -1];  % <=== Modify this matrix!
+        P = [1 0;   0 1]; % <=== Modify this matrix! 
         
         % Check GAS conditions
         A_symm_eigs = checkGAS_QLF(A);
@@ -57,11 +63,28 @@ switch ds_case
         % Modify these parameters !!
         % Current params are those to replicate example 3.1 in textbook
         % which yields an unstable system
+        
+        % Exercise 3
+        % gamma1 = 0.5;
+        % gamma2 = 0.5;
+        % A1 = [-1 -10; 1 -1];
+        % A2 = [-1 1; -10 -1];
+        % P = [1 0; 0 1];
+
+        % Exercise 3
+        % gamma1 = 0.7;
+        % gamma2 = 0.3;
+        % A1 = [-2 -3; 1 -2];
+        % A2 = [-1 -4; 2 -3];
+        % P = [1 0; 0 1];
+
+        % Exercise 4
         gamma1 = 0.5;
         gamma2 = 0.5;
-        A1 = [-1 -10; 1 -1];
-        A2 = [-1 1; -10 -1];
-        P = [1 0; 0 1];
+        A1 = [-0.25 0; 0 -0.25];
+        A2 = [-0.25 0; 0 -0.25];
+        P = [2 0; 0 2];
+
 
         % constant weighted sum of two matrices
         A_sum = gamma1*A1 + gamma2*A2;

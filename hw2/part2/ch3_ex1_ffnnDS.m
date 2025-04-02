@@ -74,7 +74,7 @@ tStart = cputime;
 % ds_neuralNet  =  feedforwardnet(M*3);
 
 % 2 hidden layers
-ds_neuralNet  =  feedforwardnet([M*3 M*2]);
+ds_neuralNet  =  feedforwardnet([M*5 M*3 M*2]);
 
 % 3 hidden layers
 % ds_neuralNet  =  feedforwardnet([M*5 M*3 M*2]);

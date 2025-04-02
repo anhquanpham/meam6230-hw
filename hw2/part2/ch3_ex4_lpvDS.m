@@ -37,7 +37,7 @@ addpath(genpath(fullfile(filepath, '..','..', 'libraries','book-thirdparty')));
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Choose to draw data (true) or load dataset (false)
-draw_data = false;
+draw_data = true;
 
 if draw_data
     %  Step 1 - OPTION 1 (DATA DRAWING): Draw 2D Dataset with GUI %%
@@ -75,7 +75,7 @@ est_options = [];
 est_options.type             = 0;   % GMM Estimation Algorithm Type 
 
 % If algo 1 selected:
-est_options.maxK             = 10;  % Maximum Gaussians for Type 1
+est_options.maxK             = 10;  % Maximum Gaussians for Type 1 #USSDED TO BE 10
 est_options.fixed_K          = [];  % Fix K and estimate with EM for Type 1
 
 % If algo 0 or 2 selected:

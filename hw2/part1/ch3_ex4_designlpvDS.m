@@ -35,33 +35,35 @@ cd(filepath); %<<== This might be necessary in some machines
 
 %%%%% Parameterize GMM variables %%%%
 % Priors is a 1xK vector
-Priors = zeros(1,2); % [pi_1, pi_2]
+%Priors = zeros(1,2); % [pi_1, pi_2]
 Priors = [0.5 0.5]; % [pi_1, pi_2] <== MODIFY ME
 
 % Mu is a 2xK matrix and Sigma is a 2x2xK matrix
 Mu = zeros(2,2);
 Sigma = zeros(2,2,2);
 
-Mu(:,1) = [0;0] ;% mu^1 <== MODIFY ME
-Mu(:,2) = [0;0];% mu^2  <== MODIFY ME
-Sigma(:,:,1) = eye(2);% Sigma^1 <== MODIFY ME
-Sigma(:,:,2) = eye(2);% Sigma^2 <== MODIFY ME
+Mu(:,1) = [-1;0] ;% mu^1 <== MODIFY ME
+Mu(:,2) = [1.1;0];% mu^2  <== MODIFY ME
+Sigma(:,:,1) = 0.1*eye(2);% Sigma^1 <== MODIFY ME
+Sigma(:,:,2) = 0.1*eye(2);% Sigma^2 <== MODIFY ME
 
 % Create GMM data structure for DS
 clear ds_gmm; ds_gmm.Mu = Mu; ds_gmm.Sigma = Sigma; ds_gmm.Priors = Priors; 
 
 %%%%% Parameterize linear system variables %%%%
 % A_k is a 2x2xK matrix
-A_k = zeros(2,2,2);
-A_k(:,:,1) = -eye(2); % A_1 <== MODIFY ME
-A_k(:,:,2) = -eye(2); % A_2 <== MODIFY ME
+%A_k = zeros(2,2,2);
+%A_k(:,:,1) = -eye(2); % A_1 <== MODIFY ME
+%A_k(:,:,2) = -eye(2); % A_2 <== MODIFY ME
+A_k(:,:,1) = [-1, 0; 0, -1];  % Moderate contraction in x1
+A_k(:,:,2) = [-3, -2.3; 2.3, -0.1];  % Stronger coupling for curved motion
 
 % b_k is a 2xK matrix
 b_k = zeros(2,2); % Assuming attractor is origin
 att = [0;0];      % Attractor
 
 %%%%% Define P matrix for P-QLF %%%%;
-P = eye(2); % <== MODIFY ME
+P = [1, 0; 0, 1]; % <== MODIFY ME
 
 %%%%% Check GAS conditions %%%%
 [Q1_eigs] = checkGAS_PQLF(A_k(:,:,1),P);
@@ -69,6 +71,7 @@ P = eye(2); % <== MODIFY ME
 
 %%% Define the LPV-DS f(x) function %%%
 ds_lpv = @(x) lpv_ds(x, ds_gmm, A_k, b_k);
+
 ds_title = '$\dot{x}=\sum_{k=1}^2\gamma_k(x)A_k(x-x^*)$';
 
 %%%%%%%%%%%%%%    Plot Resulting DS  %%%%%%%%%%%%%%%%%%%

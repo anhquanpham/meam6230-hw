@@ -27,8 +27,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clear; close all; clc;
 filepath = fileparts(which('ch3_ex1_gprDS.m'));
-addpath(genpath(fullfile(filepath, '..', 'libraries','book-ml-toolbox')));
-addpath(genpath(fullfile(filepath, '..', 'libraries','book-thirdparty')))
+addpath(genpath(fullfile(filepath, '..','..', 'libraries','book-ml-toolbox')));
+addpath(genpath(fullfile(filepath, '..','..', 'libraries','book-thirdparty')))
 % cd(filepath); %<<== This might be necessary in some machines
 
 % Choose to draw data (true) or load dataset (false)
@@ -67,11 +67,11 @@ tStart = cputime;
 % maybe using Bayesian approach?.. can impose some constraints here..
 
 % GPR Hyper-parameters <== YOU CAN PLAY AROUND WITH THESE PARAMS
-epsilon         = 0.1;
+epsilon         = 0.05;
 if draw_data
   rbf_var        = 0.25;
 else
-  rbf_var        = 5;
+  rbf_var        = 6;
 end
 
 % Input/output data (x-coordinate)
@@ -89,7 +89,7 @@ ds_gpr          = @(x)([ds_gpr_x(x)'; ds_gpr_y(x)']);
 %%%%%%%%%%%%%%    Plot Resulting DS  %%%%%%%%%%%%%%%%%%%
 % Fill in plotting options
 ds_plot_options = [];
-ds_plot_options.sim_traj  = 0;            % To simulate trajectories from x0_all
+ds_plot_options.sim_traj  = 1;            % To simulate trajectories from x0_all
 ds_plot_options.x0_all    = x0_all;       % Intial Points
 
 disp('Visualization loading, be patient...');

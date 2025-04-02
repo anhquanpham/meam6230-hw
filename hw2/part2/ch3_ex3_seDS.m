@@ -31,7 +31,7 @@ filepath = fileparts(which('ch3_ex3_seDS.m'));
 % cd(filepath); %<<== This might be necessary in some machines
 
 % Choose to draw data (true) or load dataset (false)
-draw_data = false;
+draw_data = true;
 
 if draw_data
     %  Step 1 - OPTION 1 (DATA DRAWING): Draw 2D Dataset with GUI %%
@@ -83,7 +83,7 @@ est_options.sub_sample  = 1;   % Size of sub-sampling of trajectories
 
 % 0: Manually set the # of Gaussians
 % 1: Do Model Selection with BIC
-do_ms_bic = 1;
+do_ms_bic = 0;
 
 if do_ms_bic
     [Priors0, ~, ~] = fit_gmm([Xi_ref; Xi_dot_ref], [], est_options);
@@ -91,7 +91,7 @@ if do_ms_bic
 else
     % Select manually the number of Gaussian components
     % Should be at least K=2, so that one is placed on around the attractor
-    nb_gaussians = 2;
+    nb_gaussians = 10;
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

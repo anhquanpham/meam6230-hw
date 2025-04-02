@@ -72,15 +72,15 @@ x2_dot_train  = Xi_dot_ref(2,:)';
 % SVR Hyper-parameters
 clear svr_options
 svr_options.svr_type    = 0;     % 0: epsilon-SVR, 1: nu-SVR
-svr_options.C           = 100;   % set the parameter C of C-SVC, epsilon-SVR, and nu-SVR 
-svr_options.epsilon     = 2;     % set the epsilon in loss function of epsilon-SVR 
+svr_options.C           = 150;   % set the parameter C of C-SVC, epsilon-SVR, and nu-SVR 
+svr_options.epsilon     = 0.8;     % set the epsilon in loss function of epsilon-SVR 
 
 % Kernel OPTIONS
 svr_options.kernel_type = 2;    % 0: linear: u'*v, 2: radial basis function: exp(-gamma*|u-v|^2)
 if draw_data
     svr_options.sigma   = 0.25;
 else
-    svr_options.sigma   = 5;  %  radial basis function: exp(-gamma*|u-v|^2), gamma = 1/(2*sigma^2)
+    svr_options.sigma   = 6;  %  radial basis function: exp(-gamma*|u-v|^2), gamma = 1/(2*sigma^2)
 end
 % Train SVR's for x_1 and x_2 coordinates
 clear model_x1 model_x2

@@ -75,7 +75,7 @@ tStart = cputime;
 
 % 0: Manually set the # of Gaussians
 % 1: Do Model Selection with BIC
-do_ms_bic = 0;
+do_ms_bic = 1;
 est_options = [];
 est_options.type            = 1;   % GMM Estimation Alorithm Type
 if do_ms_bic
@@ -88,7 +88,7 @@ if do_ms_bic
     nb_gaussians = length(Priors0);
 else
     % Select manually the number of Gaussian components
-    nb_gaussians = 4;
+    nb_gaussians = 6;
 end
 
 % Finding an initial guess for GMM's parameter
